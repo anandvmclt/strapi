@@ -1,0 +1,79 @@
+{
+  "kind": "collectionType",
+  "collectionName": "products",
+  "info": {
+    "singularName": "product",
+    "pluralName": "products",
+    "displayName": "Product"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "title": {
+      "type": "string",
+      "required": true,
+      "maxLength": 70,
+      "minLength": 3
+    },
+    "slug": {
+      "type": "uid",
+      "required": true,
+      "minLength": 3,
+      "maxLength": 110
+    },
+    "description": {
+      "type": "text"
+    },
+    "image": {
+      "allowedTypes": [
+        "images"
+      ],
+      "type": "media",
+      "multiple": false
+    },
+    "category": {
+      "type": "enumeration",
+      "enum": [
+        "T-Shirts",
+        "Mug",
+        "hoodie",
+        "Stickers"
+      ],
+      "default": "T-Shirts",
+      "required": true
+    },
+    "size": {
+      "type": "string",
+      "required": true,
+      "maxLength": 70,
+      "default": "30"
+    },
+    "color": {
+      "type": "enumeration",
+      "enum": [
+        "white",
+        "black",
+        "red",
+        "green",
+        "blue",
+        "yellow"
+      ],
+      "required": true,
+      "default": "white"
+    },
+    "price": {
+      "type": "decimal",
+      "default": 0,
+      "required": true,
+      "min": 1
+    },
+    "available_qty": {
+      "type": "integer",
+      "default": 1,
+      "required": true,
+      "min": 1
+    }
+  }
+}
