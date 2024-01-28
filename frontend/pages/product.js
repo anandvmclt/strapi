@@ -1,4 +1,5 @@
 import React from "react";
+import Link from "next/link";
 
 const product = (props) => {
   return (
@@ -14,31 +15,34 @@ const product = (props) => {
             </div>
           </div>
           <div className="flex flex-wrap -m-4">
-           {props.products?.data?.map((item) => {
-            return (
-               <div className="xl:w-1/4 md:w-1/2 p-4">
-               <div className="bg-gray-100 p-6 rounded-lg">
-           
-                  <img
-                   className="h-40 rounded w-full object-cover object-center mb-6"
-                   src={`http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
-                   alt="content"/>
+            {props.products?.data?.map((item) => {
+              return (
+                <div className="xl:w-1/4 md:w-1/2 p-4">
+                  <div className="bg-gray-100 p-6 rounded-lg">
+                    <img
+                      className="h-40 rounded w-full object-cover object-center mb-6"
+                      src={`http://localhost:1337${item?.attributes?.image?.data?.attributes?.formats?.medium?.url}`}
+                      alt="content"
+                    />
 
-                 <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
-                 {item.attributes.category}
-                 </h3>
-                 <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
-                 {item.attributes.title}
-                 </h2>
-                 <p className="leading-relaxed text-base">
-                 {item.attributes.description}
-                 </p>
-               </div>
-             </div>
-            )
-           })}
-
-
+                    <h3 className="tracking-widest text-indigo-500 text-xs font-medium title-font">
+                      {item.attributes.category}
+                    </h3>
+                    <h2 className="text-lg text-gray-900 font-medium title-font mb-4">
+                      {item.attributes.title}
+                    </h2>
+                    <p className="leading-relaxed text-base">
+                      {item.attributes.description}
+                    </p>
+                    <Link href={`/product/${item.attributes.slug}`}>
+                      <button class="flex text-white bg-indigo-500 border-0 py-2 px-6 focus:outline-none hover:bg-indigo-600 rounded">
+                        View Details
+                      </button>
+                    </Link>
+                  </div>
+                </div>
+              );
+            })}
           </div>
         </div>
       </section>
@@ -47,10 +51,16 @@ const product = (props) => {
 };
 
 export async function getServerSideProps(context) {
-  const headers = { Authorization: 'Bearer 80b4c01be1506ba637dcf5dad5bb514d1795afe5f15ef43ea862b35e17ebece36b3c936102693498e42d55adf8be4fce715b0336629e28ebe2fba66580ba5e1d8e2fd5a2f67f230e2b7a0f87cdbae250b338bf2962e3720dbb255fa01b4275f86b727ab6092f94a2c60fa4ebfe83ec74ec194242d36d1efd94cad4d948aec62b' };
+  const headers = {
+    Authorization:
+      "Bearer 80b4c01be1506ba637dcf5dad5bb514d1795afe5f15ef43ea862b35e17ebece36b3c936102693498e42d55adf8be4fce715b0336629e28ebe2fba66580ba5e1d8e2fd5a2f67f230e2b7a0f87cdbae250b338bf2962e3720dbb255fa01b4275f86b727ab6092f94a2c60fa4ebfe83ec74ec194242d36d1efd94cad4d948aec62b",
+  };
 
   try {
-    const response = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/api/products?populate=*`, { headers });
+    const response = await fetch(
+      `${process.env.NEXT_PUBLIC_API_URL}/api/products?populate=*`,
+      { headers }
+    );
     const products = await response.json();
     console.log(products);
     return { props: { products } };
